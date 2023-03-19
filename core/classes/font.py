@@ -8,8 +8,10 @@ def clip(surf, x, y, x_size, y_size):
     return image.copy()
 
 class Font:
-    def __init__(self, path, spacing):
+    def __init__(self, path, spacing, centered=False):
+        self.centered = centered
         self.spacing = spacing
+        self.last = ""
         font_img = pygame.image.load(path)
         current_char_width = 0
         #literally every single possible character
@@ -30,7 +32,10 @@ class Font:
             else:
                 current_char_width += 1
 
-    def render(self, surf, text, loc):
+    def render(self, surf, text, loc=(0, 0)):
+        self.last = (text,loc)
+        if self.centered:
+            loc = (640/2 - self.get_width(text)/2, loc[1])
         x_offset = 0
         for char in text:
             if char != " " and char in self.character_order:

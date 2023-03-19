@@ -2,15 +2,16 @@ import pygame, sys
 from core.game.game import game
 from core.classes.render import Renderer
 from core.classes.update import Update
-#blue chip stock
+
+# blue chip stock
 
 mainClock = pygame.time.Clock()
 from pygame.locals import *
+
 pygame.init()
 mon_w, mon_h = pygame.display.Info().current_w, pygame.display.Info().current_h
 pygame.display.set_caption("TESTING-DEBUG")
 screen = pygame.display.set_mode((640, 480), 0, 32)
-
 
 run = True
 
@@ -33,4 +34,7 @@ while run:
                 pygame.quit()
                 sys.exit()
             if event.key == K_u:
-                del game
+                game.clean()
+            if event.key == K_i:
+                game.main()
+
