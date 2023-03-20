@@ -1,15 +1,21 @@
-import pygame
 from core.classes.button import button
-import core.game.screens as sc
+import pygame
 
-class game:
-    def __init__(self, render, delta):
+
+class Screen:
+    def __init__(self, render, delta, game):
         self.render = render
+        self.game = game
         self.delta = delta
         self.texts = []
         self.obj = []
         self.up = []
-        self.main()
+        self.start()
+    #basic init
+
+    def start(self):
+        pass
+    #new screens must have start() defined, or it will not work
 
     def clean(self):
         for x in self.obj:
@@ -27,6 +33,16 @@ class game:
         self.up = []
         self.texts = []
         self.obj = []
+    #before delete make sure to clean.
 
-    def main(self):
-        mm = sc.mainmenu.mainMenu(self.render, self.delta, self)
+    def update(self):
+        for x in self.obj:
+            if type(x) is button:
+                if x.isHover:
+                    if x.isClicked:
+                        x.color = pygame.Color(150, 150, 150, 255)
+                    else:
+                        x.color = pygame.Color(20, 20, 20, 255)
+                elif x.color != pygame.Color(0, 0, 0, 255) and not x.isHover:
+                    x.color = pygame.Color(0, 0, 0, 255)
+    #update loop for delta

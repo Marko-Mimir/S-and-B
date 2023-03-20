@@ -1,5 +1,4 @@
 import pygame
-from core.classes.font import  Font
 
 
 class button:
@@ -12,7 +11,7 @@ class button:
         self.height = h
         self.isHover = False
         self.isClicked = False
-        self.when_clicked = (None, "")
+        self.when_clicked = (None, "", None)
         self.color = pygame.Color(color)
 
     def draw(self, win):
@@ -37,5 +36,12 @@ class button:
     def on_click(self):
         if self.when_clicked[0] is None or self.when_clicked[1] == "":
             return
-        func = getattr(self.when_clicked[0], self.when_clicked[1])
-        func(self)
+        try:
+            func = getattr(self.when_clicked[0], self.when_clicked[1])
+        except AttributeError as e:
+            print(e)
+            return
+        if self.when_clicked[2] is None:
+            func()
+        else:
+            func(self.when_clicked[2])
