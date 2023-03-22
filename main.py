@@ -1,3 +1,6 @@
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
 import pygame, sys
 from core.game.game import game
 from core.classes.render import Renderer
@@ -34,7 +37,7 @@ while run:
                 pygame.quit()
                 sys.exit()
             if event.key == K_u:
-                game.clean()
+                game.clear_all_scenes()
             if event.key == K_i:
                 game.main()
 

@@ -1,5 +1,5 @@
 #this is here so python recognises this as a package lol
-import core.game.screens.mainmenu
+from core.game.screens.mainmenu import mainMenu
 __all__ = [
-  mainmenu.mainMenu
+  mainMenu
 ]

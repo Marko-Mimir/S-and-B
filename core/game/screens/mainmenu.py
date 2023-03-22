@@ -1,11 +1,13 @@
 from core.classes.font import Font
 from core.classes.button import button
 from core.game.screens.screen import Screen
-import pygame
+
+import pygame as mimir
 import sys
 class mainMenu(Screen):
 
     def start(self):
+        self.name = "MainMenu"
         mainFont = Font("./sprites/font/stock-font-large.png", 4, True)
         bF = Font("./sprites/font/stock-font-large.png", 4)
         self.texts.append(mainFont)
@@ -18,23 +20,26 @@ class mainMenu(Screen):
         self.obj[0].when_clicked = (self, "whenStartClicked", None)
         self.render.obj.append(self.obj[0])
         self.delta.run_on_tick.append((self.obj[0], "on_hover"))
+        self.up.append((self.obj[0], "on_hover"))
 
         #INIT-OPTIONS-BUTTON
         self.obj.append(
             button("  Options  ", 640/2-bF.get_width("  Options  ")/2, 480*.72, bF.get_width("  Options  ")+5,
                    bF.get_height()+5, (0,0,0,255), bF))
-        self.obj[1].when_clicked = (self, "whenOptionsClicked", None)
+        self.obj[1].when_clicked = (self, "whenOptionsClicked", self)
         self.render.obj.append(self.obj[1])
         self.delta.run_on_tick.append((self.obj[1], "on_hover"))
-
+        self.up.append((self.obj[1], "on_hover"))
         #INIT-QUIT-BUTTON
         self.obj.append(
             button("   QUIT   ", 640/2-bF.get_width("   QUIT   ")/2, 480*.84, bF.get_width("   QUIT   ")+5,
                    bF.get_height()+5, (0,0,0,255), bF))
-        self.obj[2].when_clicked = (self, "whenQuitClicked", self)
+        self.obj[2].when_clicked = (self, "whenQuitClicked", None)
         self.render.obj.append(self.obj[2])
         self.delta.run_on_tick.append((self.obj[2], "on_hover"))
+        self.up.append((self.obj[2], "on_hover"))
 
+        #INIT-MENU-SELF
         self.delta.run_on_tick.append((self, "update"))
         self.up.append((self, "update"))
 
@@ -42,9 +47,10 @@ class mainMenu(Screen):
     def whenStartClicked():
         print('Start Pressed')
     @staticmethod
-    def whenOptionsClicked():
-        print('Options Pressed')
+    def whenOptionsClicked(self):
+        self.game.clear_one_scene("MainMenu")
     @staticmethod
-    def whenQuitClicked(self):
-        pygame.quit()
+    def whenQuitClicked():
+
+        mimir.quit()
         sys.exit()

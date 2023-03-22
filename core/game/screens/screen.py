@@ -4,6 +4,7 @@ import pygame
 
 class Screen:
     def __init__(self, render, delta, game):
+        self.name = ""
         self.render = render
         self.game = game
         self.delta = delta
@@ -18,16 +19,32 @@ class Screen:
     #new screens must have start() defined, or it will not work
 
     def clean(self):
-        for x in self.obj:
-            self.render.obj = self.render.obj.remove(x)
+        for x in self.obj.copy(): #del objects
+            y = self.render.obj.index(x)
+            z = self.obj.index(x)
+            self.obj[z].delete()
+
+            del self.render.obj[y]
+            del self.obj[z]
+
             if self.render.obj is None:
                 self.render.obj = []
-        for x in self.texts:
-            self.render.texts = self.render.texts.remove((x, x.last[0], x.last[1]))
+        for x in self.texts.copy(): #del texts
+            y = self.render.texts.index((x, x.last[0], x.last[1]))
+            z = self.texts.index(x)
+
+            del self.render.texts[y]
+            del self.texts[z]
+
             if self.render.texts is None:
                 self.render.texts = []
-        for x in self.up:
-            self.delta.run_on_tick = self.delta.run_on_tick.remove(x)
+        for x in self.up.copy(): #clear update loop
+            y = self.delta.run_on_tick.index(x)
+            z = self.up.index(x)
+
+            del self.delta.run_on_tick[y]
+            del self.up[z]
+
             if self.delta.run_on_tick is None:
                 self.delta.run_on_tick = []
         self.up = []

@@ -1,11 +1,10 @@
-import pygame
-from core.classes.button import button
-import core.game.screens as sc
+import importlib
 
 class game:
     def __init__(self, render, delta):
         self.render = render
         self.delta = delta
+        self.active_scenes = []
         self.texts = []
         self.obj = []
         self.up = []
@@ -27,6 +26,32 @@ class game:
         self.up = []
         self.texts = []
         self.obj = []
+    #DO NOT USE, FOR EXAMPLE USE ONLY. WILL BREAK GAME ALSO IS OUTDATED SEE SCREEN.py DON'T DELETE WILL BRAKE ANYWAYS
 
     def main(self):
-        mm = sc.mainmenu.mainMenu(self.render, self.delta, self)
+        self.add_new_scene("core.game.screens.mainmenu", "mainMenu")
+    #INIT ONLY
+
+    def add_new_scene(self, module_name, class_name):
+        scene = importlib.import_module(module_name)
+
+        class_ = getattr(scene, class_name)
+        print("Adding scene: ", class_name)
+        self.active_scenes.append(class_(self.render, self.delta, self))
+
+
+    def clear_all_scenes(self):
+        for x in self.active_scenes:
+            x.clean()
+        print("Deleting every scene.")
+        self.active_scenes = []
+
+    def clear_one_scene(self, sceneName):
+        for x in self.active_scenes:
+            if x.name == sceneName:
+                x.clean()
+                print("Deleting scene: ", sceneName)
+                self.active_scenes.pop(self.active_scenes.index(x))
+                break
+
+

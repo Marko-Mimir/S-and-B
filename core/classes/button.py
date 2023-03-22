@@ -1,8 +1,9 @@
 import pygame
+from core.classes.object import Object
 
 
-class button:
-    def __init__(self, text, x, y, w, h, color, font):
+class button(Object):
+    def __init__(self, text, x, y, w, h, color, font, name="BTN"):
         self.text = text
         self.x = x
         self.font = font
@@ -13,6 +14,13 @@ class button:
         self.isClicked = False
         self.when_clicked = (None, "", None)
         self.color = pygame.Color(color)
+        self.name = name
+
+    def delete(self):
+        self.when_clicked = (None, "", None)
+
+    def __del__(self):
+        print(self.name +" was deleted.")
 
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
